@@ -24,8 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
-
+@EnableMethodSecurity(jsr250Enabled = true,securedEnabled = true)
 public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
@@ -107,8 +106,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/v3/api-docs/**")
                                 .permitAll()
-                                .requestMatchers("/graphiql")
-                                .permitAll()
+                                .requestMatchers("/api/users/**").hasAuthority("ROLE_USER")
                                 .anyRequest().authenticated())
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer.
                         authorizationEndpoint(authorizationEndpointConfig ->
